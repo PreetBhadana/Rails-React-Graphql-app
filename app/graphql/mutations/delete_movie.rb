@@ -7,7 +7,7 @@ class Mutations::DeleteMovie < Mutations::BaseMutation
   def resolve(id:)
     movie = Movie.find(id)
     if movie.destroy
-      { movie: { id: 'All finished, kuch ni bcha!!' }, errors: ['Movie Deleted Successfuly!!'] }
+      { movie: { id: 'All finished, kuch ni bcha!!' }, errors: [] }
     else
       { movie: movie, errors: movie.errors.full_messages }
     end
