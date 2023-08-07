@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import EditMovie from './../edit_movie/edit_movie';
+import { GRAPHQL_MIN_INT } from 'graphql';
 const GET_MOVIE = gql`
   query GetMovie($id: ID!) {
     movie(id: $id) {
@@ -9,6 +10,11 @@ const GET_MOVIE = gql`
       year
       genre
       userId
+      user {
+        id
+        firstName
+        lastName
+      }
     }
   }
 `; 
@@ -32,7 +38,7 @@ export default function Movie(props){
   if (error) return <p>Error: {error.message}</p>
 
   const movie = data.movie
-
+  
   const processDeleteMovie = async (e) => {
     e.preventDefault();
     setEditMovie(false);
@@ -57,9 +63,19 @@ export default function Movie(props){
       {!editMovie && (
         <Fragment>
           <ul>
-            <li>{movie.id}</li>
-            <li>{movie.title}</li>
-            <li>{movie.year}</li>
+            <li>Id: {movie.id}</li>
+            <li>Title: {movie.title}</li>
+            <li>Year: {movie.year}</li>
+            <li>Genre: {movie.genre}</li>
+            {movie?.user?.id && 
+              <li>
+                User Details: 
+                <ol>
+                  <li>Id: {movie?.user?.id}</li>
+                  <li>Name: {movie?.user?.firstName} {movie?.user?.lastName}</li>
+                </ol>
+              </li>
+            }
           </ul>
           <button onClick={() => setEditMovie(true)}>Edit</button>
           <button onClick={(e) => processDeleteMovie(e)}>Delete</button>

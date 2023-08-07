@@ -7,7 +7,7 @@ class Mutations::DeleteUser < Mutations::BaseMutation
     user = User.find(id)
 
     if user.destroy
-      { user: nil, errors: ['Deleted Successfully!!'] }
+      { user: nil, errors: [] }
     else
       { user: user, errors: user.errors.full_messages }
     end

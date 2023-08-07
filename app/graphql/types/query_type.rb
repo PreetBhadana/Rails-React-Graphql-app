@@ -26,7 +26,7 @@ module Types
       argument :id, ID, required: true
     end
     def movie(id:)
-      Movie.find(id)
+      Movie.find_by(id: id)
     end
   end
 end
